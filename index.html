@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pink Heart Puzzle 💕</title>
+<title>Heart Puzzle 💕</title>
 
 <style>
   body {
@@ -19,54 +19,45 @@
   }
 
   .board {
-    width: 300px;
+    width: 320px;
     height: 300px;
     margin: 30px auto;
     position: relative;
-    border: 3px dashed pink;
-    border-radius: 20px;
+    background: rgba(255, 182, 193, 0.2);
+    border-radius: 40px;
+    clip-path: path(
+      "M160 290
+       C -40 140, 60 -20, 160 80
+       C 260 -20, 360 140, 160 290"
+    );
+    border: 3px dashed hotpink;
   }
 
   .slot {
-    width: 80px;
-    height: 80px;
     position: absolute;
+    border-radius: 10px;
   }
 
-  /* ❤️ HEART SHAPE */
-  .heart {
-    width: 80px;
-    height: 80px;
-    background: hotpink;
+  /* TETRIS PIECES */
+  .piece {
     position: absolute;
-    transform: rotate(-45deg);
+    background: hotpink;
+    border-radius: 10px;
     cursor: grab;
   }
 
-  .heart::before,
-  .heart::after {
-    content: "";
-    width: 80px;
-    height: 80px;
-    background: hotpink;
-    border-radius: 50%;
-    position: absolute;
-  }
-
-  .heart::before {
-    top: -40px;
-    left: 0;
-  }
-
-  .heart::after {
-    left: 40px;
-    top: 0;
-  }
+  /* Different shapes */
+  .p1 { width: 100px; height: 50px; }
+  .p2 { width: 50px; height: 100px; }
+  .p3 { width: 100px; height: 50px; }
+  .p4 { width: 50px; height: 100px; }
+  .p5 { width: 100px; height: 50px; }
+  .p6 { width: 50px; height: 100px; }
 
   .tray {
-    margin-top: 30px;
-    height: 160px;
     position: relative;
+    height: 180px;
+    margin-top: 20px;
   }
 
   .hidden {
@@ -81,8 +72,8 @@
     background-size: cover;
     background-position: center;
     clip-path: path(
-      "M150 270 
-       C -30 120, 60 -30, 150 60 
+      "M150 270
+       C -30 120, 60 -30, 150 60
        C 240 -30, 330 120, 150 270"
     );
     box-shadow: 0 0 30px hotpink;
@@ -92,38 +83,38 @@
 
 <body>
 
-<h1>Build Our Heart 💖</h1>
-<p>Drag the hearts into place</p>
+<h1>Complete the Heart 💖</h1>
+<p>Drag the pieces to form one big heart</p>
 
 <div class="board" id="board">
-  <!-- HEART SLOTS -->
-  <div class="slot" style="top:40px; left:70px"></div>
-  <div class="slot" style="top:40px; left:150px"></div>
-  <div class="slot" style="top:120px; left:30px"></div>
-  <div class="slot" style="top:120px; left:110px"></div>
-  <div class="slot" style="top:120px; left:190px"></div>
-  <div class="slot" style="top:200px; left:110px"></div>
+  <!-- DROP ZONES -->
+  <div class="slot" style="top:40px; left:60px; width:100px; height:50px;"></div>
+  <div class="slot" style="top:40px; left:160px; width:100px; height:50px;"></div>
+  <div class="slot" style="top:90px; left:40px; width:50px; height:100px;"></div>
+  <div class="slot" style="top:90px; left:135px; width:50px; height:100px;"></div>
+  <div class="slot" style="top:90px; left:230px; width:50px; height:100px;"></div>
+  <div class="slot" style="top:200px; left:135px; width:50px; height:100px;"></div>
 </div>
 
 <div class="tray">
-  <div class="heart" draggable="true" style="left:10px; top:20px"></div>
-  <div class="heart" draggable="true" style="left:110px; top:20px"></div>
-  <div class="heart" draggable="true" style="left:210px; top:20px"></div>
-  <div class="heart" draggable="true" style="left:60px; top:90px"></div>
-  <div class="heart" draggable="true" style="left:160px; top:90px"></div>
-  <div class="heart" draggable="true" style="left:260px; top:90px"></div>
+  <div class="piece p1" draggable="true" style="left:20px; top:20px"></div>
+  <div class="piece p2" draggable="true" style="left:140px; top:20px"></div>
+  <div class="piece p3" draggable="true" style="left:260px; top:20px"></div>
+  <div class="piece p4" draggable="true" style="left:80px; top:90px"></div>
+  <div class="piece p5" draggable="true" style="left:200px; top:90px"></div>
+  <div class="piece p6" draggable="true" style="left:320px; top:90px"></div>
 </div>
 
 <div id="photo" class="heart-photo hidden"></div>
 
 <script>
-const hearts = document.querySelectorAll(".heart");
+const pieces = document.querySelectorAll(".piece");
 const slots = document.querySelectorAll(".slot");
 let placed = 0;
 
-hearts.forEach(heart => {
-  heart.addEventListener("dragstart", () => {
-    window.dragged = heart;
+pieces.forEach(piece => {
+  piece.addEventListener("dragstart", () => {
+    window.dragged = piece;
   });
 });
 
