@@ -6,71 +6,153 @@
 
 <style>
   body {
-    font-family: 'Comic Sans MS', cursive;
+    margin: 0;
+    padding: 20px;
     background: #ffe6f2;
+    font-family: Arial, sans-serif;
     text-align: center;
     color: #c2185b;
-    margin: 0;
-    padding-bottom: 50px;
   }
 
   h1 {
-    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
+  /* BOARD */
   .board {
     width: 300px;
     height: 260px;
-    margin: 30px auto;
+    margin: 20px auto;
     position: relative;
+    background: #ffd1e8;
+    border-radius: 20px;
   }
 
-  /* HEART SILHOUETTE */
-  .heart-bg {
+  /* HEART GUIDE */
+  .heart-guide {
     position: absolute;
     inset: 0;
-    background: rgba(255,105,180,0.15);
-    clip-path: path(
-      "M150 250
-       C -20 130, 50 -10, 150 70
-       C 250 -10, 320 130, 150 250"
+    background: rgba(255, 105, 180, 0.25);
+    clip-path: polygon(
+      50% 90%,
+      10% 55%,
+      10% 30%,
+      30% 15%,
+      50% 30%,
+      70% 15%,
+      90% 30%,
+      90% 55%
     );
   }
 
-  /* PUZZLE PIECES */
+  /* PIECES */
   .piece {
     position: absolute;
     background: hotpink;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: grab;
-    box-shadow: inset -4px -4px rgba(0,0,0,0.15);
   }
 
-  /* PIECE SHAPES (PIXEL-STYLE RECTANGLES) */
   .p1 { width: 80px; height: 40px; }
   .p2 { width: 80px; height: 40px; }
   .p3 { width: 120px; height: 40px; }
   .p4 { width: 40px; height: 80px; }
   .p5 { width: 40px; height: 80px; }
-  .p6 { width: 40px; height: 100px; }
+  .p6 { width: 40px; height: 80px; }
 
   .tray {
-    position: relative;
     width: 360px;
     height: 160px;
-    margin: 10px auto;
+    margin: 20px auto;
+    position: relative;
   }
 
   .hidden {
     display: none;
   }
 
-  .heart-photo {
-    width: 300px;
-    height: 300px;
+  .photo {
+    width: 280px;
+    height: 280px;
     margin: 40px auto;
     background-image: url("us.jpg");
     background-size: cover;
     background-position: center;
-    clip-path: path(
-      "M150 270
+    border-radius: 50%;
+    box-shadow: 0 0 25px hotpink;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Complete the Heart 💖</h1>
+<p>Drag the pink pieces into the heart</p>
+
+<div class="board" id="board">
+  <div class="heart-guide"></div>
+</div>
+
+<div class="tray">
+  <div class="piece p1" style="left:10px; top:20px;"></div>
+  <div class="piece p2" style="left:110px; top:20px;"></div>
+  <div class="piece p3" style="left:210px; top:20px;"></div>
+  <div class="piece p4" style="left:30px; top:90px;"></div>
+  <div class="piece p5" style="left:150px; top:90px;"></div>
+  <div class="piece p6" style="left:270px; top:90px;"></div>
+</div>
+
+<div id="photo" class="photo hidden"></div>
+
+<script>
+const pieces = document.querySelectorAll(".piece");
+const board = document.getElementById("board");
+let placed = 0;
+
+pieces.forEach(piece => {
+  piece.addEventListener("mousedown", startDrag);
+});
+
+function startDrag(e) {
+  const piece = e.target;
+  let offsetX = e.offsetX;
+  let offsetY = e.offsetY;
+
+  function move(e) {
+    piece.style.left = e.pageX - offsetX + "px";
+    piece.style.top = e.pageY - offsetY + "px";
+    piece.style.position = "absolute";
+  }
+
+  function drop() {
+    const rect = board.getBoundingClientRect();
+    const p = piece.getBoundingClientRect();
+
+    if (
+      p.left > rect.left &&
+      p.right < rect.right &&
+      p.top > rect.top &&
+      p.bottom < rect.bottom
+    ) {
+      board.appendChild(piece);
+      piece.style.left = (p.left - rect.left) + "px";
+      piece.style.top = (p.top - rect.top) + "px";
+      piece.removeEventListener("mousedown", startDrag);
+      placed++;
+
+      if (placed === 6) {
+        document.getElementById("photo").classList.remove("hidden");
+      }
+    }
+
+    document.removeEventListener("mousemove", move);
+    document.removeEventListener("mouseup", drop);
+  }
+
+  document.addEventListener("mousemove", move);
+  document.addEventListener("mouseup", drop);
+}
+</script>
+
+</body>
+</html>
