@@ -28,24 +28,44 @@
   }
 
   .slot {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     position: absolute;
-    border-radius: 15px;
   }
 
-  .piece {
-    width: 90px;
-    height: 90px;
+  /* ❤️ HEART SHAPE */
+  .heart {
+    width: 80px;
+    height: 80px;
     background: hotpink;
     position: absolute;
-    border-radius: 15px;
+    transform: rotate(-45deg);
     cursor: grab;
   }
 
+  .heart::before,
+  .heart::after {
+    content: "";
+    width: 80px;
+    height: 80px;
+    background: hotpink;
+    border-radius: 50%;
+    position: absolute;
+  }
+
+  .heart::before {
+    top: -40px;
+    left: 0;
+  }
+
+  .heart::after {
+    left: 40px;
+    top: 0;
+  }
+
   .tray {
-    margin-top: 20px;
-    height: 150px;
+    margin-top: 30px;
+    height: 160px;
     position: relative;
   }
 
@@ -72,39 +92,38 @@
 
 <body>
 
-<h1>Put the Heart Together 💖</h1>
-<p>Drag the pink pieces into the heart</p>
+<h1>Build Our Heart 💖</h1>
+<p>Drag the hearts into place</p>
 
 <div class="board" id="board">
-  <!-- HEART SHAPE SLOTS -->
-  <div class="slot" style="top:40px; left:60px"></div>
+  <!-- HEART SLOTS -->
+  <div class="slot" style="top:40px; left:70px"></div>
   <div class="slot" style="top:40px; left:150px"></div>
-  <div class="slot" style="top:120px; left:20px"></div>
+  <div class="slot" style="top:120px; left:30px"></div>
   <div class="slot" style="top:120px; left:110px"></div>
-  <div class="slot" style="top:120px; left:200px"></div>
+  <div class="slot" style="top:120px; left:190px"></div>
   <div class="slot" style="top:200px; left:110px"></div>
 </div>
 
-<div class="tray" id="tray">
-  <div class="piece" draggable="true" style="left:10px; top:20px"></div>
-  <div class="piece" draggable="true" style="left:110px; top:20px"></div>
-  <div class="piece" draggable="true" style="left:210px; top:20px"></div>
-  <div class="piece" draggable="true" style="left:60px; top:80px"></div>
-  <div class="piece" draggable="true" style="left:160px; top:80px"></div>
-  <div class="piece" draggable="true" style="left:260px; top:80px"></div>
+<div class="tray">
+  <div class="heart" draggable="true" style="left:10px; top:20px"></div>
+  <div class="heart" draggable="true" style="left:110px; top:20px"></div>
+  <div class="heart" draggable="true" style="left:210px; top:20px"></div>
+  <div class="heart" draggable="true" style="left:60px; top:90px"></div>
+  <div class="heart" draggable="true" style="left:160px; top:90px"></div>
+  <div class="heart" draggable="true" style="left:260px; top:90px"></div>
 </div>
 
 <div id="photo" class="heart-photo hidden"></div>
 
 <script>
-const pieces = document.querySelectorAll(".piece");
+const hearts = document.querySelectorAll(".heart");
 const slots = document.querySelectorAll(".slot");
 let placed = 0;
 
-pieces.forEach(piece => {
-  piece.addEventListener("dragstart", e => {
-    e.dataTransfer.setData("id", piece);
-    window.dragged = piece;
+hearts.forEach(heart => {
+  heart.addEventListener("dragstart", () => {
+    window.dragged = heart;
   });
 });
 
@@ -112,7 +131,7 @@ slots.forEach(slot => {
   slot.addEventListener("dragover", e => e.preventDefault());
 
   slot.addEventListener("drop", () => {
-    if (slot.children.length === 0) {
+    if (!slot.hasChildNodes()) {
       slot.appendChild(window.dragged);
       window.dragged.style.position = "static";
       window.dragged.draggable = false;
