@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pixel Heart Puzzle 💕</title>
+<title>Heart Puzzle 💖</title>
 
 <style>
   body {
-    background: #ffe6f2;
     font-family: 'Comic Sans MS', cursive;
+    background: #ffe6f2;
     text-align: center;
     color: #c2185b;
     margin: 0;
@@ -18,52 +18,47 @@
     margin-top: 20px;
   }
 
-  /* GRID HEART BOARD */
   .board {
-    display: grid;
-    grid-template-columns: repeat(9, 32px);
-    grid-template-rows: repeat(9, 32px);
-    gap: 4px;
-    justify-content: center;
+    width: 300px;
+    height: 260px;
     margin: 30px auto;
-    padding: 20px;
-    background: rgba(255, 182, 193, 0.25);
-    border-radius: 25px;
+    position: relative;
   }
 
-  .cell {
-    width: 32px;
-    height: 32px;
-    background: transparent;
+  /* HEART SILHOUETTE */
+  .heart-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,105,180,0.15);
+    clip-path: path(
+      "M150 250
+       C -20 130, 50 -10, 150 70
+       C 250 -10, 320 130, 150 250"
+    );
   }
 
-  .slot {
-    background: rgba(255, 105, 180, 0.25);
-    border-radius: 6px;
-  }
-
-  /* TETRIS PIECES */
+  /* PUZZLE PIECES */
   .piece {
     position: absolute;
-    display: grid;
-    grid-template-columns: repeat(var(--w), 32px);
-    grid-template-rows: repeat(var(--h), 32px);
-    gap: 4px;
+    background: hotpink;
+    border-radius: 8px;
     cursor: grab;
+    box-shadow: inset -4px -4px rgba(0,0,0,0.15);
   }
 
-  .block {
-    width: 32px;
-    height: 32px;
-    background: hotpink;
-    border-radius: 6px;
-    box-shadow: inset -3px -3px rgba(0,0,0,0.15);
-  }
+  /* PIECE SHAPES (PIXEL-STYLE RECTANGLES) */
+  .p1 { width: 80px; height: 40px; }
+  .p2 { width: 80px; height: 40px; }
+  .p3 { width: 120px; height: 40px; }
+  .p4 { width: 40px; height: 80px; }
+  .p5 { width: 40px; height: 80px; }
+  .p6 { width: 40px; height: 100px; }
 
   .tray {
     position: relative;
-    height: 200px;
-    margin-top: 10px;
+    width: 360px;
+    height: 160px;
+    margin: 10px auto;
   }
 
   .hidden {
@@ -79,106 +74,3 @@
     background-position: center;
     clip-path: path(
       "M150 270
-       C -30 120, 60 -30, 150 60
-       C 240 -30, 330 120, 150 270"
-    );
-    box-shadow: 0 0 30px hotpink;
-  }
-</style>
-</head>
-
-<body>
-
-<h1>Build the Pixel Heart 💖</h1>
-<p>Fit the Tetris pieces together</p>
-
-<!-- HEART SHAPE GRID -->
-<div class="board" id="board">
-  <!-- 9x9 heart layout -->
-  <!-- Row 1 -->
-  <div></div><div class="slot"></div><div class="slot"></div><div></div><div></div><div class="slot"></div><div class="slot"></div><div></div><div></div>
-  <!-- Row 2 -->
-  <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-  <!-- Row 3 -->
-  <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-  <!-- Row 4 -->
-  <div></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div></div>
-  <!-- Row 5 -->
-  <div></div><div></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div></div><div></div>
-  <!-- Row 6 -->
-  <div></div><div></div><div></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div></div><div></div><div></div>
-  <!-- Row 7 -->
-  <div></div><div></div><div></div><div></div><div class="slot"></div><div></div><div></div><div></div><div></div>
-</div>
-
-<!-- PIECES -->
-<div class="tray">
-  <!-- piece 1 -->
-  <div class="piece" draggable="true" style="--w:2;--h:2;left:20px;top:20px">
-    <div class="block"></div><div class="block"></div>
-    <div class="block"></div><div class="block"></div>
-  </div>
-
-  <!-- piece 2 -->
-  <div class="piece" draggable="true" style="--w:3;--h:1;left:150px;top:20px">
-    <div class="block"></div><div class="block"></div><div class="block"></div>
-  </div>
-
-  <!-- piece 3 -->
-  <div class="piece" draggable="true" style="--w:1;--h:3;left:280px;top:20px">
-    <div class="block"></div><div class="block"></div><div class="block"></div>
-  </div>
-
-  <!-- piece 4 -->
-  <div class="piece" draggable="true" style="--w:2;--h:3;left:80px;top:90px">
-    <div class="block"></div><div class="block"></div>
-    <div class="block"></div><div class="block"></div>
-    <div class="block"></div><div class="block"></div>
-  </div>
-
-  <!-- piece 5 -->
-  <div class="piece" draggable="true" style="--w:3;--h:2;left:200px;top:90px">
-    <div class="block"></div><div class="block"></div><div class="block"></div>
-    <div class="block"></div><div class="block"></div><div class="block"></div>
-  </div>
-
-  <!-- piece 6 -->
-  <div class="piece" draggable="true" style="--w:1;--h:4;left:340px;top:90px">
-    <div class="block"></div><div class="block"></div>
-    <div class="block"></div><div class="block"></div>
-  </div>
-</div>
-
-<div id="photo" class="heart-photo hidden"></div>
-
-<script>
-const pieces = document.querySelectorAll(".piece");
-const slots = document.querySelectorAll(".slot");
-let placed = 0;
-
-pieces.forEach(piece => {
-  piece.addEventListener("dragstart", () => {
-    window.dragged = piece;
-  });
-});
-
-slots.forEach(slot => {
-  slot.addEventListener("dragover", e => e.preventDefault());
-
-  slot.addEventListener("drop", () => {
-    if (!slot.hasChildNodes()) {
-      slot.appendChild(window.dragged);
-      window.dragged.style.position = "static";
-      window.dragged.draggable = false;
-      placed++;
-
-      if (placed === 6) {
-        document.getElementById("photo").classList.remove("hidden");
-      }
-    }
-  });
-});
-</script>
-
-</body>
-</html>
