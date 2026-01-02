@@ -2,62 +2,68 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Heart Puzzle 💕</title>
+<title>Pixel Heart Puzzle 💕</title>
 
 <style>
   body {
-    font-family: 'Comic Sans MS', cursive;
     background: #ffe6f2;
+    font-family: 'Comic Sans MS', cursive;
     text-align: center;
     color: #c2185b;
     margin: 0;
-    padding-bottom: 40px;
+    padding-bottom: 50px;
   }
 
   h1 {
     margin-top: 20px;
   }
 
+  /* GRID HEART BOARD */
   .board {
-    width: 320px;
-    height: 300px;
+    display: grid;
+    grid-template-columns: repeat(9, 32px);
+    grid-template-rows: repeat(9, 32px);
+    gap: 4px;
+    justify-content: center;
     margin: 30px auto;
-    position: relative;
-    background: rgba(255, 182, 193, 0.2);
-    border-radius: 40px;
-    clip-path: path(
-      "M160 290
-       C -40 140, 60 -20, 160 80
-       C 260 -20, 360 140, 160 290"
-    );
-    border: 3px dashed hotpink;
+    padding: 20px;
+    background: rgba(255, 182, 193, 0.25);
+    border-radius: 25px;
+  }
+
+  .cell {
+    width: 32px;
+    height: 32px;
+    background: transparent;
   }
 
   .slot {
-    position: absolute;
-    border-radius: 10px;
+    background: rgba(255, 105, 180, 0.25);
+    border-radius: 6px;
   }
 
   /* TETRIS PIECES */
   .piece {
     position: absolute;
-    background: hotpink;
-    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(var(--w), 32px);
+    grid-template-rows: repeat(var(--h), 32px);
+    gap: 4px;
     cursor: grab;
   }
 
-  /* Different shapes */
-  .p1 { width: 100px; height: 50px; }
-  .p2 { width: 50px; height: 100px; }
-  .p3 { width: 100px; height: 50px; }
-  .p4 { width: 50px; height: 100px; }
-  .p5 { width: 100px; height: 50px; }
-  .p6 { width: 50px; height: 100px; }
+  .block {
+    width: 32px;
+    height: 32px;
+    background: hotpink;
+    border-radius: 6px;
+    box-shadow: inset -3px -3px rgba(0,0,0,0.15);
+  }
 
   .tray {
     position: relative;
-    height: 180px;
-    margin-top: 20px;
+    height: 200px;
+    margin-top: 10px;
   }
 
   .hidden {
@@ -83,26 +89,64 @@
 
 <body>
 
-<h1>Complete the Heart 💖</h1>
-<p>Drag the pieces to form one big heart</p>
+<h1>Build the Pixel Heart 💖</h1>
+<p>Fit the Tetris pieces together</p>
 
+<!-- HEART SHAPE GRID -->
 <div class="board" id="board">
-  <!-- DROP ZONES -->
-  <div class="slot" style="top:40px; left:60px; width:100px; height:50px;"></div>
-  <div class="slot" style="top:40px; left:160px; width:100px; height:50px;"></div>
-  <div class="slot" style="top:90px; left:40px; width:50px; height:100px;"></div>
-  <div class="slot" style="top:90px; left:135px; width:50px; height:100px;"></div>
-  <div class="slot" style="top:90px; left:230px; width:50px; height:100px;"></div>
-  <div class="slot" style="top:200px; left:135px; width:50px; height:100px;"></div>
+  <!-- 9x9 heart layout -->
+  <!-- Row 1 -->
+  <div></div><div class="slot"></div><div class="slot"></div><div></div><div></div><div class="slot"></div><div class="slot"></div><div></div><div></div>
+  <!-- Row 2 -->
+  <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+  <!-- Row 3 -->
+  <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+  <!-- Row 4 -->
+  <div></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div></div>
+  <!-- Row 5 -->
+  <div></div><div></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div></div><div></div>
+  <!-- Row 6 -->
+  <div></div><div></div><div></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div></div><div></div><div></div>
+  <!-- Row 7 -->
+  <div></div><div></div><div></div><div></div><div class="slot"></div><div></div><div></div><div></div><div></div>
 </div>
 
+<!-- PIECES -->
 <div class="tray">
-  <div class="piece p1" draggable="true" style="left:20px; top:20px"></div>
-  <div class="piece p2" draggable="true" style="left:140px; top:20px"></div>
-  <div class="piece p3" draggable="true" style="left:260px; top:20px"></div>
-  <div class="piece p4" draggable="true" style="left:80px; top:90px"></div>
-  <div class="piece p5" draggable="true" style="left:200px; top:90px"></div>
-  <div class="piece p6" draggable="true" style="left:320px; top:90px"></div>
+  <!-- piece 1 -->
+  <div class="piece" draggable="true" style="--w:2;--h:2;left:20px;top:20px">
+    <div class="block"></div><div class="block"></div>
+    <div class="block"></div><div class="block"></div>
+  </div>
+
+  <!-- piece 2 -->
+  <div class="piece" draggable="true" style="--w:3;--h:1;left:150px;top:20px">
+    <div class="block"></div><div class="block"></div><div class="block"></div>
+  </div>
+
+  <!-- piece 3 -->
+  <div class="piece" draggable="true" style="--w:1;--h:3;left:280px;top:20px">
+    <div class="block"></div><div class="block"></div><div class="block"></div>
+  </div>
+
+  <!-- piece 4 -->
+  <div class="piece" draggable="true" style="--w:2;--h:3;left:80px;top:90px">
+    <div class="block"></div><div class="block"></div>
+    <div class="block"></div><div class="block"></div>
+    <div class="block"></div><div class="block"></div>
+  </div>
+
+  <!-- piece 5 -->
+  <div class="piece" draggable="true" style="--w:3;--h:2;left:200px;top:90px">
+    <div class="block"></div><div class="block"></div><div class="block"></div>
+    <div class="block"></div><div class="block"></div><div class="block"></div>
+  </div>
+
+  <!-- piece 6 -->
+  <div class="piece" draggable="true" style="--w:1;--h:4;left:340px;top:90px">
+    <div class="block"></div><div class="block"></div>
+    <div class="block"></div><div class="block"></div>
+  </div>
 </div>
 
 <div id="photo" class="heart-photo hidden"></div>
