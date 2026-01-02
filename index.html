@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pink Heart Puzzle 💕</title>
+
+<style>
+  body {
+    font-family: 'Comic Sans MS', cursive;
+    background: #ffe6f2;
+    text-align: center;
+    color: #c2185b;
+    margin: 0;
+    padding-bottom: 40px;
+  }
+
+  h1 {
+    margin-top: 20px;
+  }
+
+  .board {
+    width: 300px;
+    height: 300px;
+    margin: 30px auto;
+    position: relative;
+    border: 3px dashed pink;
+    border-radius: 20px;
+  }
+
+  .slot {
+    width: 90px;
+    height: 90px;
+    position: absolute;
+    border-radius: 15px;
+  }
+
+  .piece {
+    width: 90px;
+    height: 90px;
+    background: hotpink;
+    position: absolute;
+    border-radius: 15px;
+    cursor: grab;
+  }
+
+  .tray {
+    margin-top: 20px;
+    height: 150px;
+    position: relative;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .heart-photo {
+    width: 300px;
+    height: 300px;
+    margin: 40px auto;
+    background-image: url("us.jpg");
+    background-size: cover;
+    background-position: center;
+    clip-path: path(
+      "M150 270 
+       C -30 120, 60 -30, 150 60 
+       C 240 -30, 330 120, 150 270"
+    );
+    box-shadow: 0 0 30px hotpink;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Put the Heart Together 💖</h1>
+<p>Drag the pink pieces into the heart</p>
+
+<div class="board" id="board">
+  <!-- HEART SHAPE SLOTS -->
+  <div class="slot" style="top:40px; left:60px"></div>
+  <div class="slot" style="top:40px; left:150px"></div>
+  <div class="slot" style="top:120px; left:20px"></div>
+  <div class="slot" style="top:120px; left:110px"></div>
+  <div class="slot" style="top:120px; left:200px"></div>
+  <div class="slot" style="top:200px; left:110px"></div>
+</div>
+
+<div class="tray" id="tray">
+  <div class="piece" draggable="true" style="left:10px; top:20px"></div>
+  <div class="piece" draggable="true" style="left:110px; top:20px"></div>
+  <div class="piece" draggable="true" style="left:210px; top:20px"></div>
+  <div class="piece" draggable="true" style="left:60px; top:80px"></div>
+  <div class="piece" draggable="true" style="left:160px; top:80px"></div>
+  <div class="piece" draggable="true" style="left:260px; top:80px"></div>
+</div>
+
+<div id="photo" class="heart-photo hidden"></div>
+
+<script>
+const pieces = document.querySelectorAll(".piece");
+const slots = document.querySelectorAll(".slot");
+let placed = 0;
+
+pieces.forEach(piece => {
+  piece.addEventListener("dragstart", e => {
+    e.dataTransfer.setData("id", piece);
+    window.dragged = piece;
+  });
+});
+
+slots.forEach(slot => {
+  slot.addEventListener("dragover", e => e.preventDefault());
+
+  slot.addEventListener("drop", () => {
+    if (slot.children.length === 0) {
+      slot.appendChild(window.dragged);
+      window.dragged.style.position = "static";
+      window.dragged.draggable = false;
+      placed++;
+
+      if (placed === 6) {
+        document.getElementById("photo").classList.remove("hidden");
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
